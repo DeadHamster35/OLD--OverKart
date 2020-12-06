@@ -1,15 +1,26 @@
 
 // the following all deal with ASM instructions in the game.
 // we edit them in the customASM and stockASM routines.
+extern long DisplayHopA;
+extern long DisplayHopB;
+extern long DisplayNOPA;
+extern long DisplayNOPB;
 
-extern long previewReloadA;
-extern long previewReloadB;
+extern long CollisionJumpA;
+extern long CollisionJumpB;
+extern long CollisionNOPA;
+extern long CollisionNOPB;
 
-extern long previewReloadC;
-extern long previewReloadD;
-extern long previewReloadE;
-extern long previewReloadF;
+extern long SetObjectTableA;
+extern long SetObjectTableB;
+extern long SetObjectNOPA;
+extern long SetObjectNOPB;
 
+
+extern long previewReload;
+
+extern short echoStart;
+extern short echoStop;
 
 extern long highpolypipeA; //0x802911E8   ;;3C190700
 extern long highpolypipeB; //0x802911EC   ;;373908E8
@@ -23,6 +34,9 @@ extern long bigmushroomB; //0x802911A8   ;;37181140
 
 extern long bigmushroomsurfaceA; //0x80295E3C   ;;3C040700
 extern long bigmushroomsurfaceB; //0x80295E44   ;;34841140
+
+extern long uraGrpA;
+extern long uraGrpB;
 
 extern long audienceA; //0x802927EC   ;;3C0F0700
 extern long audienceB; //0x802927F0   ;;35EF14A0
@@ -51,7 +65,7 @@ extern long bigsignA; //0x802A2AA4   ;;3C0A0601
 extern long bigsignB; //0x802A2AA8   ;;254A9330
 
 
-extern short pathLength; //800DD9D0  - DE5D0
+extern short g_pathLength; //800DD9D0  - DE5D0
 extern long pathOffset; //0x800DC8D0  -  DD4D0
 extern long pathOffsetB; //0x800DC780
 
@@ -77,6 +91,10 @@ extern long piranhadisplayB; //0x8029866C   ;;25EF6990
 // offsets for course data
 
 extern long unknownA1; //0x802927FC   ;;3C190601 -> 3C190600
+extern long unknownB1; //0x802927FC   ;;3C190601 -> 3C190600
+extern long unknownC1; //0x802927FC   ;;3C190601 -> 3C190600
+extern long unknownD1; //0x802927FC   ;;3C190601 -> 3C190600
+
 extern long unknownA2; //0x80292810   ;;248401F0 -> 24840000
 
 extern long unknownB; //0x802927FC   ;;34841140 -> 34840000

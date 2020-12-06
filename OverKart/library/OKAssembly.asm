@@ -2,14 +2,52 @@
 ; the following all deal with ASM instructions in the game.
 ; we edit them in the customASM and stockASM routines.
 
-.definelabel previewReloadA, 0x8009409C
-.definelabel previewReloadB, 0x80094280
 
-.definelabel previewReloadC, 0x80094BF0
-.definelabel previewReloadD, 0x8009A748
-.definelabel previewReloadE, 0x800940A4
-.definelabel previewReloadF, 0x80094288
+.definelabel nopASM, 0x80002714
 
+
+.definelabel asm_tempo1A, 0x800015C4  ;;3C0F8015
+.definelabel asm_tempo1ASpeed, 0x800015C6  ;;speed value
+.definelabel asm_tempo1B, 0x800015C8  ;;8DEF0114
+.definelabel asm_tempo1BSpeed, 0x800015CA  ;; speed value
+
+.definelabel asm_tempo2A, 0x80001A38  ;;3C098015
+.definelabel asm_tempo2ASpeed, 0x80001A3A  ;;speed value
+.definelabel asm_tempo2B, 0x80001A3C  ;;8D290114
+.definelabel asm_tempo2BSpeed, 0x80001A3E  ;; speed value
+
+.definelabel asm_tempo3A, 0x80001C90  ;;3C0A8015
+.definelabel asm_tempo3ASpeed, 0x80001C92  ;;speed value
+.definelabel asm_tempo3B, 0x80001C94  ;;8D4A0114
+.definelabel asm_tempo3BSpeed, 0x80001C96  ;; speed value
+
+.definelabel asm_selectA, 0x800B3924
+.definelabel asm_selectB, 0x800B3936
+.definelabel asm_selectC, 0x800B39A4
+.definelabel asm_selectD, 0x800B39B6
+.definelabel asm_selectE, 0x800B3A38
+.definelabel asm_selectF, 0x800B3A4E
+
+.definelabel DisplayHopA, 0x802A31D0  //3C01802C
+.definelabel DisplayHopB, 0x802A31D8 //8C2D9A44
+.definelabel DisplayNOPA, 0x802A31C4
+.definelabel DisplayNOPB, 0x802A31C8
+
+.definelabel CollisionJumpA, 0x802A0498 //3C01802C
+.definelabel CollisionJumpB, 0x802A04A0 //8C2B991C
+.definelabel CollisionNOPA, 0x802A0480
+.definelabel CollisionNOPB, 0x802A048C
+
+.definelabel SetObjectTableA, 0x80296D94 //3C01802C
+.definelabel SetObjectTableB, 0x80296D9C //8C39991C
+.definelabel SetObjectNOPA, 0x80296D88
+.definelabel SetObjectNOPB, 0x80296D8C
+
+.definelabel previewReload, 0x80094BF0
+//0C0266BB
+
+.definelabel echoStart, 0x80027F52  ;;short value
+.definelabel echoStop, 0x80027F5A  ;;short value
 
 
 .definelabel highpolypipeA, 0x802911E8   ;;3C190700
@@ -24,6 +62,9 @@
 
 .definelabel bigmushroomsurfaceA, 0x80295E3C   ;;3C040700
 .definelabel bigmushroomsurfaceB, 0x80295E44   ;;34841140
+
+.definelabel uraGrpA, 0x8029250C   ;;3C0E0700
+.definelabel uraGrpB, 0x80292510   ;;35CE3050
 
 .definelabel audienceA, 0x802927EC   ;;3C0F0700
 .definelabel audienceB, 0x802927F0   ;;35EF14A0
@@ -51,7 +92,7 @@
 .definelabel bigsignA, 0x802A2AA4   ;;3C0A0601
 .definelabel bigsignB, 0x802A2AA8   ;;254A9330
 
-.definelabel pathLength, 0x800DD9D0
+.definelabel g_pathLength, 0x800DD9D0
 .definelabel pathOffset, 0x800DC8D0
 
 .definelabel pathOffsetB, 0x800DC780
@@ -80,8 +121,13 @@
 .definelabel unknownA1, 0x802956D0   ;;3C190601 -> 3C190600
 .definelabel unknownA2, 0x802956D4   ;;248401F0 -> 24840000
 
+.definelabel unknownB1, 0x80295E3C   ;;3C040700 -> 34840000
 .definelabel unknownB, 0x80295E44   ;;34841140 -> 34840000
+
+.definelabel unknownC1, 0x80295E54   ;;3C040700 -> 34840000
 .definelabel unknownC, 0x80295E5C   ;;348408E8 -> 34840000
+
+.definelabel unknownD1, 0x80295E68   ;;3C040700 -> 34840000
 .definelabel unknownD, 0x80295E70   ;;34842D68 -> 34840000
 
 .definelabel sectionviewA, 0x802927FC   ;;3C040900
@@ -93,5 +139,5 @@
 
 .definelabel tbl_pathOffset, 0x8000DC780
 .definelabel tbl_pathOffsetB, 0x8000DC8D0
-.definelabel tbl_pathLength, 0x8000DD9D0
+.definelabel tbl_g_pathLength, 0x8000DD9D0
 .definelabel tbl_objectList, 0x802B97AC

@@ -14,7 +14,7 @@ void dmaLoop(int loopCount)
      int currentPass = 0;
      do{
           runDMA();
-          *dmaTarget = *dmaTarget + dmaLength;
+          *targetAddress = *targetAddress + dataLength;
           currentPass++;
      } while (currentPass < loopCount);
 }
@@ -22,61 +22,61 @@ void dmaLoop(int loopCount)
 void unknown33()
 {
      //Unknown33 - 40
-     if (gameMode[3]== 0)
+     if (gameMode[4]== 0)
      {
-          *dmaSource = 0xE36D0;
-          *dmaTarget = 0x800E2AD0;
-          dmaLength = 0x1E0;
+          *sourceAddress = 0xE36D0;
+          *targetAddress = 0x800E2AD0;
+          dataLength = 0x1E0;
           runDMA();
      }
      else
      {
-          switch(gameMode[3])
+          switch(gameMode[4])
           {
 
                case 0x01:
                {
-                    *dmaSource = 0xE36D0;
+                    *sourceAddress = 0xE36D0;
                     break;
                }
                case 0x02:
                {
-                    *dmaSource = 0xE370C;
+                    *sourceAddress = 0xE370C;
                     break;
                }
                case 0x03:
                {
-                    *dmaSource = 0xE3748;
+                    *sourceAddress = 0xE3748;
                     break;
                }
                case 0x04:
                {
-                    *dmaSource = 0xE3784;
+                    *sourceAddress = 0xE3784;
                     break;
                }
                case 0x05:
                {
-                    *dmaSource = 0xE37C0;
+                    *sourceAddress = 0xE37C0;
                     break;
                }
                case 0x06:
                {
-                    *dmaSource = 0xE37FC;
+                    *sourceAddress = 0xE37FC;
                     break;
                }
                case 0x07:
                {
-                    *dmaSource = 0xE3838;
+                    *sourceAddress = 0xE3838;
                     break;
                }
                case 0x08:
                {
-                    *dmaSource = 0xE3874;
+                    *sourceAddress = 0xE3874;
                     break;
                }
           }
-          dmaLength = 0x3C;
-          *dmaTarget = 0x800E2AD0;
+          dataLength = 0x3C;
+          *targetAddress = 0x800E2AD0;
           dmaLoop(8);
      }
 }
@@ -86,61 +86,61 @@ void unknown33()
 void unknown41()
 {
 
-     if (gameMode[3] == 0)
+     if (gameMode[4] == 0)
      {
-          *dmaSource = 0xE38B0;
-          *dmaTarget = 0x800E2CB0;
-          dmaLength = 0x1E0;
+          *sourceAddress = 0xE38B0;
+          *targetAddress = 0x800E2CB0;
+          dataLength = 0x1E0;
           runDMA();
      }
      else
           {
-          switch(gameMode[3])
+          switch(gameMode[4])
           {
 
                case 0x01:
                {
-                    *dmaSource = 0xE38B0;
+                    *sourceAddress = 0xE38B0;
                     break;
                }
                case 0x02:
                {
-                    *dmaSource = 0xE38EC;
+                    *sourceAddress = 0xE38EC;
                     break;
                }
                case 0x03:
                {
-                    *dmaSource = 0xE3928;
+                    *sourceAddress = 0xE3928;
                     break;
                }
                case 0x04:
                {
-                    *dmaSource = 0xE3964;
+                    *sourceAddress = 0xE3964;
                     break;
                }
                case 0x05:
                {
-                    *dmaSource = 0xE39A0;
+                    *sourceAddress = 0xE39A0;
                     break;
                }
                case 0x06:
                {
-                    *dmaSource = 0xE39DC;
+                    *sourceAddress = 0xE39DC;
                     break;
                }
                case 0x07:
                {
-                    *dmaSource = 0xE3A18;
+                    *sourceAddress = 0xE3A18;
                     break;
                }
                case 0x08:
                {
-                    *dmaSource = 0xE3A54;
+                    *sourceAddress = 0xE3A54;
                     break;
                }
           }
-          *dmaTarget = 0x800E2CB0;
-          dmaLength = 0x3C;
+          *targetAddress = 0x800E2CB0;
+          dataLength = 0x3C;
           dmaLoop(8);
      }
 
@@ -151,57 +151,57 @@ void unknown41()
 
 void accelTable()
 {
-     if (gameMode[3] == 0)
+     if (gameMode[4] == 0)
      {
-          *dmaSource = 0xE3AD0;
-          *dmaTarget = 0x800E2ED0 ;
-          dmaLength = 0x140;
+          *sourceAddress = 0xE3AD0;
+          *targetAddress = 0x800E2ED0 ;
+          dataLength = 0x140;
           runDMA();
      }
      else
      {
-          switch(gameMode[3])
+          switch(gameMode[4])
           {
                case 0x01:
                {
-                    *dmaSource = 0xE3AD0;
+                    *sourceAddress = 0xE3AD0;
                     break;
                }
                case 0x02:
                {
-                    *dmaSource = 0xE3AF8;
+                    *sourceAddress = 0xE3AF8;
                }
                case 0x03:
                {
-                    *dmaSource = 0xE3B20;
+                    *sourceAddress = 0xE3B20;
                }
                case 0x04:
                {
-                    *dmaSource = 0xE3B48;
+                    *sourceAddress = 0xE3B48;
                }
                case 0x05:
                {
-                    *dmaSource = 0xE3B70;
+                    *sourceAddress = 0xE3B70;
                     break;
                }
                case 0x06:
                {
-                    *dmaSource = 0xE3B98;
+                    *sourceAddress = 0xE3B98;
                     break;
                }
                case 0x07:
                {
-                    *dmaSource = 0xE3BC0;
+                    *sourceAddress = 0xE3BC0;
                     break;
                }
                case 0x08:
                {
-                    *dmaSource = 0xE3BE8;
+                    *sourceAddress = 0xE3BE8;
                     break;
                }
           }
-          dmaLength = 0x28;
-          *dmaTarget = 0x800E2ED0;
+          dataLength = 0x28;
+          *targetAddress = 0x800E2ED0;
           dmaLoop(8);
      }
 
@@ -213,7 +213,7 @@ void accelTable()
 void equalStats()
 {
      //unknown11
-     switch(gameMode[3])
+     switch(gameMode[4])
      {
           case 0x00:
           {
@@ -271,7 +271,7 @@ void equalStats()
 
 
      }
-     if (gameMode[3] > 0x00)
+     if (gameMode[4] > 0x00)
      {
           u11_Mario = statData;
           u11_Luigi = statData;
@@ -291,7 +291,7 @@ void equalStats()
 
 
      //unknown12
-     switch(gameMode[3])
+     switch(gameMode[4])
      {
           case 0x00:
           {
@@ -349,7 +349,7 @@ void equalStats()
 
 
      }
-     if (gameMode[3] > 0x00)
+     if (gameMode[4] > 0x00)
      {
           u12_Mario = statData;
           u12_Luigi = statData;
@@ -373,7 +373,7 @@ void equalStats()
 
 
      //unknown13
-     switch(gameMode[3])
+     switch(gameMode[4])
      {
           case 0x00:
           {
@@ -431,7 +431,7 @@ void equalStats()
 
 
      }
-     if (gameMode[3] > 0x00)
+     if (gameMode[4] > 0x00)
      {
           u13_Mario = statData;
           u13_Luigi = statData;
@@ -455,7 +455,7 @@ void equalStats()
 
 
      //unknown14
-     switch(gameMode[3])
+     switch(gameMode[4])
      {
           case 0x00:
           {
@@ -514,7 +514,7 @@ void equalStats()
 
      }
 
-     if (gameMode[3] > 0x00)
+     if (gameMode[4] > 0x00)
      {
           u14_Mario = statData;
           u14_Luigi = statData;
@@ -539,7 +539,7 @@ void equalStats()
 
 
      //cc50
-     switch(gameMode[3])
+     switch(gameMode[4])
      {
           case 0x00:
           {
@@ -597,7 +597,7 @@ void equalStats()
 
 
      }
-     if (gameMode[3] > 0x00)
+     if (gameMode[4] > 0x00)
      {
           cc50_Mario = statData;
           cc50_Luigi = statData;
@@ -621,7 +621,7 @@ void equalStats()
 
 
      //cc100
-     switch(gameMode[3])
+     switch(gameMode[4])
      {
           case 0x00:
           {
@@ -679,7 +679,7 @@ void equalStats()
 
 
      }
-     if (gameMode[3] > 0x00)
+     if (gameMode[4] > 0x00)
      {
           cc100_Mario = statData;
           cc100_Luigi = statData;
@@ -704,7 +704,7 @@ void equalStats()
 
 
      //cc150
-     switch(gameMode[3])
+     switch(gameMode[4])
      {
           case 0x00:
           {
@@ -762,7 +762,7 @@ void equalStats()
 
 
      }
-     if (gameMode[3] > 0x00)
+     if (gameMode[4] > 0x00)
      {
           cc150_Mario = statData;
           cc150_Luigi = statData;
@@ -787,7 +787,7 @@ void equalStats()
 
 
      //ccextra
-     switch(gameMode[3])
+     switch(gameMode[4])
      {
           case 0x00:
           {
@@ -845,7 +845,7 @@ void equalStats()
 
 
      }
-     if (gameMode[3] > 0x00)
+     if (gameMode[4] > 0x00)
      {
           ccextra_Mario = statData;
           ccextra_Luigi = statData;
@@ -866,7 +866,7 @@ void equalStats()
 
 
 
-     switch(gameMode[3])
+     switch(gameMode[4])
      {
           case 0x00:
           {
@@ -932,7 +932,7 @@ void equalStats()
 
 
      }
-     if (gameMode[3] > 0x00)
+     if (gameMode[4] > 0x00)
      {
           turncoA_Mario = statData;
           turncoA_Luigi = statData;
@@ -955,7 +955,7 @@ void equalStats()
 
 
 
-     switch(gameMode[3])
+     switch(gameMode[4])
      {
           case 0x00:
           {
@@ -1021,7 +1021,7 @@ void equalStats()
 
 
      }
-     if (gameMode[3] > 0x00)
+     if (gameMode[4] > 0x00)
      {
           tripleTap_Mario = statData;
           tripleTap_Luigi = statData;
@@ -1033,7 +1033,7 @@ void equalStats()
           tripleTap_Bowser = statData;
      }
 
-     switch(gameMode[3])
+     switch(gameMode[4])
      {
           case 0x00:
           {
@@ -1099,7 +1099,7 @@ void equalStats()
 
 
      }
-     if (gameMode[3] > 0x00)
+     if (gameMode[4] > 0x00)
      {
           turnangle_Mario = statData;
           turnangle_Luigi = statData;
@@ -1117,10 +1117,10 @@ void equalStats()
 
 
 
-     accelTable(gameMode[3]);
+     accelTable(gameMode[4]);
 
-     unknown33(gameMode[3]);
-     unknown41(gameMode[3]);
+     unknown33(gameMode[4]);
+     unknown41(gameMode[4]);
 
 
 
@@ -1129,9 +1129,9 @@ void equalStats()
 
 void checkStats()
 {
-     if (gameMode[3] != statsCheck)
+     if (gameMode[4] != statsCheck)
      {
           equalStats();
-          statsCheck = gameMode[3];
+          statsCheck = gameMode[4];
      }
 }

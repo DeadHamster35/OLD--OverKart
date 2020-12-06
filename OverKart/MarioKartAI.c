@@ -110,7 +110,7 @@ void checkAI()
 {
      if (forceCPU > 0x00)
 	{
-		switch (gameMode[2])
+		switch (gameMode[3])
 		{
 			case 0x01 :
 			{
@@ -169,7 +169,7 @@ void checkAI()
 
 void aiSetup()
 {
-     if (gameMode[2] > 0x00)
+     if (gameMode[3] > 0x00)
 	{
 		player2OK = 0X01;
 		player3OK = 0x01;
@@ -182,7 +182,7 @@ void aiSetup()
 
 
 
-	if ((gameMode[2] > 0x00) && (g_startingIndicator >= 0x02))
+	if ((gameMode[3] > 0x00) && (g_startingIndicator >= 0x02))
 	{
 		forceCPU = 0x01;
 	}
@@ -191,7 +191,7 @@ void aiSetup()
 		forceCPU = 0x00;
 	}
 
-     if (gameMode[2] == 0x02)
+     if (gameMode[3] == 0x02)
      {
           fastAI();
      }

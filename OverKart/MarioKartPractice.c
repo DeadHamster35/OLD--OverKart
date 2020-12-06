@@ -1,9 +1,11 @@
 #include "library/MarioKart.h"
-#include "library/MarioKartControls.h"
 #include "library/OKHeader.h"
 #include "MarioKartMenu.h"
 #include "OverKart.h"
 #include "MarioKartAI.h"
+#include "MarioKart3D.h"
+#include "SharedFunctions.h"
+#include <stdbool.h>
 
 
 
@@ -11,8 +13,13 @@
 
 
 
-
-
+float LocalY = 10;
+int moveDistance = 5;
+int lastX = 0;
+int lastY = 0;
+int lastZ = 0;
+int devParameter;
+int devOption;
 
 char savestateSplit = 0x00;
 float savestateTimeA = 0;
@@ -22,7 +29,7 @@ long savestateLapA = 0;
 char savestateLapB = 0x00;
 char savestateLapC = 0x00;
 float saveTimer = 0;
-
+bool cruiseControl = false;
 
 
 static int savestateToggle = 0x00;
@@ -78,9 +85,17 @@ void modCheck()
 	}
 	if (gameMode[2] > 0x00)
 	{
+
+	}
+	else
+	{
+
+	}
+	if (gameMode[3] > 0x00)
+	{
 		aiSetup();
 	}
-	//gameMode[3] handled in Menu
+	//gameMode[4] handled in Menu
 
 	if (renderMode[0] > 0x00)
 	{
@@ -117,31 +132,31 @@ void modCheck()
 			g_ScreenSplitB = 2;
 		}
 	}
-	if (renderMode[3] > 0x00)
+	if (renderMode[4] > 0x00)
 	{
-		tempo1A = 0x240F0000;
-		tempo1B = 0x240F0000;
-		tempo1AS = 2;
-		tempo1BS = 2;
+		asm_tempo1A = 0x240F0000;
+		asm_tempo1B = 0x240F0000;
+		asm_tempo1ASpeed = 2;
+		asm_tempo1BSpeed = 2;
 
-		tempo2A = 0x24090000;
-		tempo2B = 0x24090000;
-		tempo2AS = 2;
-		tempo2BS = 2;
+		asm_tempo2A = 0x24090000;
+		asm_tempo2B = 0x24090000;
+		asm_tempo2ASpeed = 2;
+		asm_tempo2BSpeed = 2;
 
-		tempo3A = 0x240A0000;
-		tempo3B = 0x240A0000;
-		tempo3AS = 2;
-		tempo3BS = 2;
+		asm_tempo3A = 0x240A0000;
+		asm_tempo3B = 0x240A0000;
+		asm_tempo3ASpeed = 2;
+		asm_tempo3BSpeed = 2;
 	}
 
 
 
 
-	//modMode[0] and modMode[1] handled in gameCode function.
-	if (modMode[3] > 0x00)
+	//modMode[0] and modMode[2] handled in gameCode function.
+	if (modMode[4] > 0x00)
 	{
-		if (modMode[3] < 0x09)
+		if (modMode[4] < 0x09)
 		{
 			asm_itemJump1B = 0x84A55002;
 			asm_itemJump2B = 0x84A55002;
@@ -161,28 +176,28 @@ void modCheck()
 
 				case 0x04:
 				{
-					ok_ItemChance1 = 8 - modMode[3];
-					ok_ItemChance2 = 8 - modMode[3];
-					ok_ItemChance3 = 8 - modMode[3];
-					ok_ItemChance4 = 8 - modMode[3];
+					ok_ItemChance1 = 8 - modMode[4];
+					ok_ItemChance2 = 8 - modMode[4];
+					ok_ItemChance3 = 8 - modMode[4];
+					ok_ItemChance4 = 8 - modMode[4];
 					break;
 				}
 				case 0x03:
 				{
-					ok_ItemChance1 = 8 - modMode[3];
-					ok_ItemChance2 = 8 - modMode[3];
-					ok_ItemChance3 = 8 - modMode[3];
+					ok_ItemChance1 = 8 - modMode[4];
+					ok_ItemChance2 = 8 - modMode[4];
+					ok_ItemChance3 = 8 - modMode[4];
 					break;
 				}
 				case 0x02:
 				{
-					ok_ItemChance1 = 8 - modMode[3];
-					ok_ItemChance2 = 8- modMode[3];
+					ok_ItemChance1 = 8 - modMode[4];
+					ok_ItemChance2 = 8- modMode[4];
 					break;
 				}
 				case 0x01:
 				{
-					ok_ItemChance1 = 8 - modMode[3];
+					ok_ItemChance1 = 8 - modMode[4];
 					break;
 				}
 			}
@@ -200,41 +215,41 @@ void modCheck()
 void saveState()
 {
 	//simpleObjects
-	dmaLength = 0x2BC0;
-	*dmaTarget = 0x80420000;
-	*dmaSource = 0x8015F9B8;
-	ramCopy(*dmaTarget, *dmaSource, dmaLength);
+	dataLength = 0x2BC0;
+	*targetAddress = 0x80420000;
+	*sourceAddress = 0x8015F9B8;
+	ramCopy(*targetAddress, *sourceAddress, dataLength);
 
 	//dynamicObjects
-	dmaLength = 0x1E140;
-	*dmaTarget = 0x80422BC4;
-	*dmaSource = 0x80165C18;
-	ramCopy(*dmaTarget, *dmaSource, dmaLength);
+	dataLength = 0x1E140;
+	*targetAddress = 0x80422BC4;
+	*sourceAddress = 0x80165C18;
+	ramCopy(*targetAddress, *sourceAddress, dataLength);
 
 	//playerData
-	dmaLength = 0x6EC0;
-	*dmaTarget = 0x80440D08;
-	*dmaSource = 0x800F6990;
-	ramCopy(*dmaTarget, *dmaSource, dmaLength);
+	dataLength = 0x6EC0;
+	*targetAddress = 0x80440D08;
+	*sourceAddress = 0x800F6990;
+	ramCopy(*targetAddress, *sourceAddress, dataLength);
 
 
 	//courseOBJ
-	dmaLength = 0x840;
-	*dmaTarget = 0x80447BCC;
-	*dmaSource = 0x8016359C;
-	ramCopy(*dmaTarget, *dmaSource, dmaLength);
+	dataLength = 0x840;
+	*targetAddress = 0x80447BCC;
+	*sourceAddress = 0x8016359C;
+	ramCopy(*targetAddress, *sourceAddress, dataLength);
 
 	//camera data
-	dmaLength = 0x2E0;
-	*dmaTarget = 0x80448410;
-	*dmaSource = 0x801646F0;
-	ramCopy(*dmaTarget, *dmaSource, dmaLength);
+	dataLength = 0x2E0;
+	*targetAddress = 0x80448410;
+	*sourceAddress = 0x801646F0;
+	ramCopy(*targetAddress, *sourceAddress, dataLength);
 
 	//lap timers
-	dmaLength = 0x90;
-	*dmaTarget = 0x804486F0;
-	*dmaSource = 0x8018CA70;
-	ramCopy(*dmaTarget, *dmaSource, dmaLength);
+	dataLength = 0x90;
+	*targetAddress = 0x804486F0;
+	*sourceAddress = 0x8018CA70;
+	ramCopy(*targetAddress, *sourceAddress, dataLength);
 
 	saveTimer = g_gameTimer;
 	savestateLapA = g_gameLapPlayer1;
@@ -248,39 +263,39 @@ void saveState()
 
 void loadState()
 {
-	dmaLength =0x2BC0;
-	*dmaTarget = 0x8015F9B8;
-	*dmaSource = 0x80420000;
-	ramCopy(*dmaTarget, *dmaSource, dmaLength);
+	dataLength =0x2BC0;
+	*targetAddress = 0x8015F9B8;
+	*sourceAddress = 0x80420000;
+	ramCopy(*targetAddress, *sourceAddress, dataLength);
 
-	dmaLength = 0x1E140;
-	*dmaTarget = 0x80165C18;
-	*dmaSource = 0x80422BC4;
-	ramCopy(*dmaTarget, *dmaSource, dmaLength);
+	dataLength = 0x1E140;
+	*targetAddress = 0x80165C18;
+	*sourceAddress = 0x80422BC4;
+	ramCopy(*targetAddress, *sourceAddress, dataLength);
 
 	//playerData
-	dmaLength = 0x6EC0;
-	*dmaTarget = 0x800F6990;
-	*dmaSource = 0x80440D08;
-	ramCopy(*dmaTarget, *dmaSource, dmaLength);
+	dataLength = 0x6EC0;
+	*targetAddress = 0x800F6990;
+	*sourceAddress = 0x80440D08;
+	ramCopy(*targetAddress, *sourceAddress, dataLength);
 
 	//courseOBJ
-	dmaLength = 0x840;
-	*dmaTarget = 0x8016359C;
-	*dmaSource = 0x80447BCC;
-	ramCopy(*dmaTarget, *dmaSource, dmaLength);
+	dataLength = 0x840;
+	*targetAddress = 0x8016359C;
+	*sourceAddress = 0x80447BCC;
+	ramCopy(*targetAddress, *sourceAddress, dataLength);
 
 	//camera data
-	dmaLength = 0x2E0;
-	*dmaTarget = 0x801646F0;
-	*dmaSource = 0x80448410;
-	ramCopy(*dmaTarget, *dmaSource, dmaLength);
+	dataLength = 0x2E0;
+	*targetAddress = 0x801646F0;
+	*sourceAddress = 0x80448410;
+	ramCopy(*targetAddress, *sourceAddress, dataLength);
 
 	//lap timers
-	dmaLength = 0x90;
-	*dmaTarget = 0x8018CA70;
-	*dmaSource = 0x804486F0;
-	ramCopy(*dmaTarget, *dmaSource, dmaLength);
+	dataLength = 0x90;
+	*targetAddress = 0x8018CA70;
+	*sourceAddress = 0x804486F0;
+	ramCopy(*targetAddress, *sourceAddress, dataLength);
 
 	g_gameTimer = saveTimer;
 	g_gameLapPlayer1 = savestateLapA;
@@ -347,7 +362,7 @@ void drawInputDisplay()
 		{1, 1} //stick
 	};
 
-	boxOffset = drawBox(boxOffset,
+	GraphPtr = drawBox(GraphPtr,
 	xpos, ypos, xpos+w*7 +1, ypos+h*3 +1, //x1, y1, x2, y2
 	0, 0, 0, 128); //r, g, b, a
 
@@ -370,7 +385,7 @@ void drawInputDisplay()
 			int x = xpos + (coords[i][0] * w);
 			int y = ypos + (coords[i][1] * h);
 
-			boxOffset = drawBox(boxOffset,
+			GraphPtr = drawBox(GraphPtr,
 				x + 1 , y + 1, x+w, y+h, //x1, y1, x2, y2
 				r, g, b, a); //r, g, b, a
 
@@ -394,7 +409,7 @@ void drawInputDisplay()
 			int x = xpos + (stickCoord[i][0] * w);
 			int y = ypos + (stickCoord[i][1] * h);
 
-			boxOffset = drawBox(boxOffset,
+			GraphPtr = drawBox(GraphPtr,
 			x + 1 , y + 1, x+w, y+h, //x1, y1, x2, y2
 			r, g, b, a); //r, g, b, a
 
@@ -413,7 +428,7 @@ void drawInputDisplay()
 	int x = xpos + ((stickCoord[4][0] * w) + deltaX);
 	int y = ypos + ((stickCoord[4][1] * h) + deltaY);
 
-	boxOffset = drawBox(boxOffset,
+	GraphPtr = drawBox(GraphPtr,
 		x + 1 , y + 1, x+w, y+h, //x1, y1, x2, y2
 		r, g, b, a); //r, g, b, a
 
@@ -422,143 +437,558 @@ void drawInputDisplay()
 					//XXX analog stick
 }
 
+
+
+
+void rotateCamera(int inputAngle)
+{
+
+	float playerAngle = ((float)inputAngle / 360.0) * 65535.0;
+	short angleValue = (short)playerAngle;
+	float x1 = g_player1LocationX - g_player1CameraX;
+	float y1 = g_player1LocationZ - g_player1CameraZ;
+
+	float x2 = x1 * cosF(playerAngle) - y1 * sinF(playerAngle);
+	float y2 = x1 * sinF(playerAngle) + y1 * cosF(playerAngle);
+
+	g_player1LocationX = x2 + g_player1CameraX;
+	g_player1LocationZ = y2 + g_player1CameraZ;
+	g_player1LocationA = g_player1LocationA + angleValue;
+}
+
+
+void moveCamera(int inputDistance)
+{
+	float playerAngle = (((float)g_player1LocationA / 65535) * 360);
+	float angleRadian = (int)playerAngle * -0.0174533;
+	g_player1LocationX = (float)(g_player1LocationX + inputDistance * sinF(angleRadian));
+	g_player1LocationZ = (float)(g_player1LocationZ + inputDistance * cosF(angleRadian));
+}
+
+void moveCameraTilt(int inputDistance, int tilt)
+{
+	float playerAngle = (((float)g_player1LocationA / 65535) * 360) + tilt;
+	if (tilt > 0)
+	{
+		if (playerAngle > 360)
+		playerAngle -= 360;
+	}
+	else
+	{
+		if (playerAngle < 0)
+		playerAngle += 360;
+	}
+
+
+	float angleRadian = (int)playerAngle * -0.0174533;
+	g_player1LocationX = (float)(g_player1LocationX + inputDistance * sinF(angleRadian));
+	g_player1LocationZ = (float)(g_player1LocationZ + inputDistance * cosF(angleRadian));
+}
+
+
+//modmode[0] is > 0 then
 void practiceHack()
 {
 	char dpadInput = ((d_Input >> 8) & 0x0F);
 	short cpadInput = (d_Input & 0x000F);
-	char LToggle = (p_Input & 0xF0);
-	if ((resetToggle == 0x01) && (g_gameTimer != 0x00000000))
+	char LRToggle = (p_Input & 0xF0);
+	char ABToggle = ((d_Input >> 12) & 0x0F);
+	if (modMode[0] == 1)
 	{
-		inGame = 0x01;
-		resetToggle = 0x00;
-	}
-	if ((itemSwap == 0x01) && (itemBoolean < 0x08) && (itemBoolean > 0x03))
-	{
-		itemA = 0x08;
-		itemB = 0x08;
-		itemC = 0x08;
-
-	}
-	if (splitBool > 0x00)
-	{
-		splitFunc();
-
-	}
-	if (itemBoolean == 0x07)
-	{
-		itemSwap = 0x00;
-	}
-	if (dpadInput == 0x00)
-	{
-		buttonPressed = 0x00;
-	}
-	// D-Pad Hacks.
-	if (cpadInput == 0x02)
-	{
-		g_playerLocation1Y = g_playerLocation1Y + 3;
-		g_player1SpeedY = 0;
-		boxOffset = drawBox(boxOffset, 23, 43, 72, 53, 0, 0,0, 175);
-          loadFont();
-          printString(5,25, "FLYING");
-	}
-	if (buttonPressed == 0x00)
-	{
-		if (LToggle == 0x20)
+		if ((resetToggle == 0x01) && (g_gameTimer != 0x00000000))
 		{
+			g_InGame = 0x01;
+			resetToggle = 0x00;
+		}
+		if ((itemSwap == 0x01) && (itemBoolean < 0x08) && (itemBoolean > 0x03))
+		{
+			itemA = 0x08;
+			itemB = 0x08;
+			itemC = 0x08;
+
+		}
+		if (splitBool > 0x00)
+		{
+			splitFunc();
+
+		}
+		if (itemBoolean == 0x07)
+		{
+			itemSwap = 0x00;
+		}
+		if (dpadInput == 0x00)
+		{
+			buttonPressed = 0x00;
+		}
+		// D-Pad Hacks.
+		if (cpadInput == 0x02)
+		{
+			g_player1LocationY = g_player1LocationY + 3;
+			g_player1SpeedY = 0;
+			GraphPtr = drawBox(GraphPtr, 23, 43, 120, 53, 0, 0,0, 175);
+	          loadFont();
+	          printString(5,25, "FLYING");
+		}
+		if (buttonPressed == 0x00)
+		{
+			if (LRToggle == 0x20)
+			{
+				switch(dpadInput)
+				{
+
+					// End Split hack.
+					case 0x01 :
+					{
+
+						buttonPressed = 1;
+						splitEnd = g_progressValue;
+
+						break;
+					}
+
+					//Start Split hack.
+					case 0x02 :
+					{
+
+						buttonPressed = 1;
+						splitStart = g_progressValue;
+						break;
+					}
+
+					// Turn Off Split Timer
+					case 0x04 :
+					{
+						splitBool = 0x00;
+
+						buttonPressed = 1;
+						break;
+					}
+
+					// Turn on Split Timer
+					case 0x08 :
+					{
+						splitBool = 0x01;
+
+						break;
+					}
+				}
+			}
+			else
+			{
+				switch(dpadInput)
+				{
+
+					// Load Position hack.
+					case 0x01 :
+					{
+						if (savestateToggle == ((hsID * 0x10) + g_courseID + 1))
+						{
+							buttonPressed = 1;
+							loadState();
+						}
+						break;
+					}
+
+					// Save Position hack.
+
+					case 0x02 :
+					{
+
+						buttonPressed = 1;
+						savestateToggle = ((hsID * 0x10) + g_courseID + 1);
+						saveState();
+						break;
+					}
+
+					// Reset Timer and Lap Hack
+					case 0x04 :
+					{
+						g_gameLapPlayer1 = 0x00;
+						g_lapCheckA = 0x00;
+						g_lapCheckB = 0x00;
+
+						g_gameTimer = 90;
+						itemSwap = 0x01;
+						itemBoolean = 0x01;
+
+						buttonPressed = 1;
+						break;
+					}
+
+					//FASTRESET Hack
+					case 0x08 :
+					{
+						g_resetToggle = 0x00;
+						resetToggle = 0x01;
+						buttonPressed = 1;
+
+						break;
+					}
+				}
+			}
+		}
+	}
+
+
+	if (modMode[1] == 1)
+	{
+		disableEngine = 0x0100;
+		disableHUD = 0x2400;
+		disableGhostHUD = 0;
+		g_playerSpriteSize = 0;
+		g_playerStatus = 0;
+		if ((lastX == 0) && (lastY == 0))
+		{
+			lastX = g_player1LocationX;
+			lastY = g_player1LocationY;
+			lastZ = g_player1LocationZ;
+		}
+		else
+		{
+			g_player1LocationX = lastX;
+			g_player1LocationY = lastY;
+			g_player1LocationZ = lastZ;
+		}
+
+
+		if ((c_Input == 0) && (ABToggle == 0) && (cpadInput == 0) && (dpadInput == 0))
+		{
+			buttonPressed = 0x00;
+		}
+
+
+		if (buttonPressed == 0x00)
+		{
+			if (cruiseControl)
+			{
+				moveCamera(moveDistance);
+			}
+			else
+			{
+				switch(ABToggle)
+				{
+					case 0x04:
+					{
+						moveCamera((int)(-1 * moveDistance));
+						break;
+					}
+					case 0x08:
+					{
+						moveCamera(moveDistance);
+						break;
+					}
+				}
+			}
+
+			if (LRToggle == 0x10)
+			{
+				GraphPtr = drawBox(GraphPtr, 23, 43, 120, 63, 0, 0,0, 175);
+				loadFont();
+				printStringNumber(5,25, "SECTION-", g_player1Section);
+				printStringNumber(5,35, "SPEED-", moveDistance);
+
+				if ((c_Input & 0x01) == 0x01)
+				{
+					moveCameraTilt(moveDistance,90);
+				}
+				if ((c_Input & 0x02) == 0x02)
+				{
+					moveCameraTilt(moveDistance,-90);
+				}
+				if ((c_Input & 0x04) == 0x04)
+				{
+					g_player1LocationY = g_player1LocationY - moveDistance * .6;
+				}
+				if ((c_Input & 0x08) == 0x08)
+				{
+					g_player1LocationY = g_player1LocationY + moveDistance * .6;
+				}
+				switch(dpadInput)
+				{
+
+					case 0x01:
+					{
+						g_player1Section = g_player1Section + 1;
+						buttonPressed = 1;
+						break;
+					}
+					case 0x02:
+					{
+						if (g_player1Section > 1)
+						{
+							g_player1Section = g_player1Section - 1;
+						}
+						buttonPressed = 1;
+						break;
+					}
+					case 0x04 :
+					{
+						if (moveDistance > 5)
+						{
+							moveDistance = moveDistance - 5;
+						}
+						buttonPressed = 1;
+						break;
+					}
+
+					// Turn on Split Timer
+					case 0x08 :
+					{
+						moveDistance = moveDistance + 5;
+						buttonPressed = 1;
+						break;
+					}
+				}
+			}
+			else
+			{
+				switch(cpadInput)
+				{
+					case 0x01:
+					{
+						moveCameraTilt(moveDistance,90);
+						break;
+					}
+					case 0x02:
+					{
+						moveCameraTilt(moveDistance,-90);
+						break;
+					}
+					case 0x04:
+					{
+						cruiseControl = !cruiseControl;
+						buttonPressed = 1;
+						break;
+					}
+				}
+				if ((c_Input & 0x01) == 0x01)
+				{
+					rotateCamera(5);
+				}
+				if ((c_Input & 0x02) == 0x02)
+				{
+					rotateCamera(-5);
+				}
+				if ((c_Input & 0x04) == 0x04)
+				{
+					g_player1LocationY = g_player1LocationY - moveDistance * .6;
+				}
+				if ((c_Input & 0x08) == 0x08)
+				{
+					g_player1LocationY = g_player1LocationY + moveDistance * .6;
+				}
+			}
+
+		}
+
+
+		lastX = g_player1LocationX;
+		lastY = g_player1LocationY;
+		lastZ = g_player1LocationZ;
+
+	}
+
+
+
+
+
+
+	//devmode
+
+	if (modMode[0] == 2)
+	{
+		printMap(devParameter);
+		if (dpadInput == 0x00)
+		{
+			buttonPressed = 0x00;
+		}
+		if (LRToggle == 0x10)
+		{
+
 			switch(dpadInput)
 			{
-
-				// End Split hack.
-				case 0x01 :
-				{
-
-					buttonPressed = 1;
-					splitEnd = g_progressValue;
-
-					break;
-				}
-
-				//Start Split hack.
-				case 0x02 :
-				{
-
-					buttonPressed = 1;
-					splitStart = g_progressValue;
-					break;
-				}
-
-				// Turn Off Split Timer
-				case 0x04 :
-				{
-					splitBool = 0x00;
-
-					buttonPressed = 1;
-					break;
-				}
-
-				// Turn on Split Timer
 				case 0x08 :
 				{
-					splitBool = 0x01;
+					if (devParameter > 0 && buttonPressed == 0)
+					{
+						devParameter--;
+						buttonPressed = 1;
+					}
+					break;
+				}
 
+				case 0x04 :
+				{
+					if (devParameter < 3 && buttonPressed == 0)
+					{
+						devParameter++;
+						buttonPressed = 1;
+					}
 					break;
 				}
 			}
 		}
 		else
 		{
-			switch(dpadInput)
+			buttonPressed = 0;
+			switch(devParameter)
 			{
-
-				// Load Position hack.
-				case 0x01 :
+				case 0:
 				{
-					if (savestateToggle == (g_courseID + 1))
+					//map
+
+					switch(dpadInput)
 					{
-						buttonPressed = 1;
-						loadState();
-						g_playerLocation1Z = g_playerLocation1Z + 1;
+
+						case 0x01 :
+						{
+							g_mapX++;
+							break;
+						}
+
+
+						case 0x02 :
+						{
+
+							g_mapX--;
+							break;
+						}
+
+						case 0x04 :
+						{
+							g_mapY++;
+							break;
+						}
+
+						case 0x08 :
+						{
+							g_mapY--;
+							break;
+						}
 					}
 					break;
 				}
 
-				// Save Position hack.
+
+
+				case 1:
+				{
+					//map
+					switch(dpadInput)
+					{
+
+						case 0x01 :
+						{
+							g_startX++;
+							break;
+						}
+
+
+						case 0x02 :
+						{
+
+							g_startX--;
+							break;
+						}
+
+						case 0x04 :
+						{
+							g_startY++;
+							break;
+						}
+
+						case 0x08 :
+						{
+							g_startY--;
+							break;
+						}
+					}
+					break;
+				}
+
+
+
+				case 2:
+				{
+					//map
+					switch(dpadInput)
+					{
+
+						case 0x01 :
+						{
+							g_mapScale = g_mapScale + .0001;
+							break;
+						}
+
+
+						case 0x02 :
+						{
+
+							g_mapScale = g_mapScale - .0001;
+							break;
+						}
+					}
+					break;
+				}
+
+			}
+		}
+	}
+
+
+	if (modMode[0] == 3)
+	{
+
+		if (dpadInput == 0x00)
+		{
+			buttonPressed = 0x00;
+		}
+		if (LRToggle == 0x10)
+		{
+
+			switch(dpadInput)
+			{
+				case 0x08 :
+				{
+					break;
+				}
+
+				case 0x04 :
+				{
+					break;
+				}
+			}
+		}
+		else
+		{
+			buttonPressed = 0;
+			switch(dpadInput)
+			{
+
+				case 0x01 :
+				{
+
+
+					break;
+				}
+
 
 				case 0x02 :
 				{
 
-					buttonPressed = 1;
-					savestateToggle = (g_courseID + 1);
-					saveState();
 					break;
 				}
 
-				// Reset Timer and Lap Hack
 				case 0x04 :
 				{
-					g_gameLapPlayer1 = 0x00;
-					g_lapCheckA = 0x00;
-					g_lapCheckB = 0x00;
-
-					g_gameTimer = 90;
-					itemSwap = 0x01;
-					itemBoolean = 0x01;
-
-					buttonPressed = 1;
 					break;
 				}
 
-				//FASTRESET Hack
 				case 0x08 :
 				{
-					g_resetToggle = 0x00;
-					resetToggle = 0x01;
-					buttonPressed = 1;
-
 					break;
 				}
 			}
 		}
 	}
-
 }
