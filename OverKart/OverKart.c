@@ -1,3 +1,4 @@
+#include <sys/types.h>
 #include <stdbool.h>
 #include "library/MarioKart.h"
 #include "library/OKHeader.h"
@@ -22,10 +23,10 @@ int raceStatus = 0; //used to mirror g_startingIndicator to ensure code runs onc
 
 //genericInput;
 
-long dataLength = 0; //
-long *targetAddress = &ok_Target;
-long *sourceAddress = &ok_Source;
-long *tempPointer = &ok_Pointer;
+uint dataLength = 0; //
+uint *targetAddress = &ok_Target;
+uint *sourceAddress = &ok_Source;
+uint *tempPointer = &ok_Pointer;
 long *graphPointer = &GraphPtrOffset;
 long currentHeaderAddress = 0;
 

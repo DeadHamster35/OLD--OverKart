@@ -1,10 +1,10 @@
+#include <sys/types.h>
+
+
 extern long SYSTEM_Region;
-
-
-
 extern void decodeMIO0(long input, long output);
-extern void DMA(long output, long input, long Length);
-extern void decodeTKMK(int input, long *temp, int output, int transparent);
+extern void DMA(int output, int input, uint Length);
+extern void decodeTKMK(int input, uint *temp, int output, int transparent);
 extern void loadCourse(int courseID);
 extern void ramCopy(long output, long input, long Length);
 
@@ -30,6 +30,8 @@ extern unsigned long* drawBox(unsigned long *buf, int x1, int y1, int x2, int y2
 extern long SegmentTable[];
 
 extern long SetStar(void *CarPointer, int PlayerIndex);
+extern long SetStorm(void *CarPointer, int PlayerIndex);
+extern long SetThunder(void *CarPointer, int PlayerIndex);
 
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
@@ -312,6 +314,7 @@ extern long asm_SongB;// 0x8028F9C4
 
 extern long g_skyColorTop;
 extern long g_skyColorBot;
+extern long g_courseTable;
 
 
 extern char player2OK; //

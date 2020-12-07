@@ -967,25 +967,34 @@ void practiceHack()
 
 				case 0x01 :
 				{
-
-
+					void* Car = &g_PlayerStateTable;
+					int playerID = ((long)&Car - (long)&g_PlayerStateTable) / 0xDD8;
+					SetThunder(Car,playerID);
 					break;
 				}
 
 
 				case 0x02 :
 				{
-
+					void* Car = &g_PlayerStateTable;
+					int playerID = ((long)&Car - (long)&g_PlayerStateTable) / 0xDD8;
+					SetStorm(Car,playerID);
 					break;
 				}
 
 				case 0x04 :
 				{
+					void* Car = &g_PlayerStateTable;
+					int playerID = ((long)&Car - (long)&g_PlayerStateTable) / 0xDD8;
+					SetStar(Car,playerID);
 					break;
 				}
 
 				case 0x08 :
 				{
+					void* Car = &g_PlayerStateTable;
+					int playerID = ((long)&Car - (long)&g_PlayerStateTable) / 0xDD8;
+					SetStar(Car,playerID);
 					break;
 				}
 			}

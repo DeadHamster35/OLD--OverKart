@@ -40,6 +40,8 @@
 .definelabel SetSegment, 0x802A7B94
 
 .definelabel SetStar, 0x8008F778
+.definelabel SetStorm, 0x8008D7B0
+.definelabel SetThunder, 0x8008DF98
 
 .definelabel initializePlayer, 0x800393C0
 
@@ -287,9 +289,10 @@
 .definelabel asm_SongA, 0x8028EC9C
 .definelabel asm_SongB, 0x8028F9C4
 //802B8B70
+
 .definelabel g_skyColorTop, 0x802B8AD0
 .definelabel g_skyColorBot, 0x802B8BCC
-
+.definelabel g_courseTable, 0x802B8D80
 
 .definelabel player2OK, 0x8018EDE9
 .definelabel player3OK, 0x8018EDEA

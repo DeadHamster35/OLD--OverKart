@@ -424,13 +424,14 @@ void loadHotSwap(int gpOffset)
 		uint courseHeaderAddress = (uint)&ok_CourseHeader;
 		*targetAddress = courseHeaderAddress;
 		*sourceAddress = *(uint*)(headerOffsets + ((courseValue + gpOffset) * 4) + ((hsID-1) * 0x50));
+		*tempPointer = *sourceAddress;
 		dataLength = 0x64;
 		if (*sourceAddress != 0xFFFFFFFF)
 		{
 			runDMA();
 
 			//load the standard course loadHeaderOffsets
-			*targetAddress = 0x802B8D80;
+			*targetAddress = (long)&g_courseTable;
 			*sourceAddress = (long)(courseHeaderAddress + 4);
 			dataLength = 0x30;
 			runRAM();
@@ -443,7 +444,7 @@ void loadHotSwap(int gpOffset)
 	else
 	{
 		*sourceAddress = 0x122390;
-		*targetAddress = 0x802B8D80;
+		*targetAddress = (long)&g_courseTable;
 		dataLength = 0x30;
 		runDMA();
 		courseSwapped = 1;

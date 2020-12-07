@@ -106,30 +106,30 @@ void loadPosition()
 
 void PrintMenuTest()
 {
-     char HeaderText[18];
-     char textA[54];
-     char textB[54];
-     char *bufH = HeaderText;
-     char *bufA = textA;
-     char *bufB = textB;
+     char PrintText[54];
+     char *PrintBuffer = PrintText;
      GraphPtr = drawBox(GraphPtr, 0, 0, 400, 75, 0, 0, 0, 200);
      loadFont();
-     uint HeaderOffset = (uint)&ok_CourseHeader;
+     uint HeaderOffset = (uint)&ok_HeaderOffsets;
+     //uint CourseHeaderOffset = (uint)&ok_CourseHeader;
 
-     bufH = printHex(bufH, HeaderOffset, 8); *bufH++ = 0;
-     printString(15,10,HeaderText);
+     PrintBuffer = printHex(PrintBuffer, HeaderOffset, 8); *PrintBuffer++ = 0;
+     printString(15,10,PrintText);
+     PrintBuffer = PrintText;
+     PrintBuffer = printHex(PrintBuffer, *tempPointer, 8); *PrintBuffer++ = 0;
+     printString(15,20,PrintText);
 
+     PrintBuffer = PrintText;
+     PrintBuffer = printHex(PrintBuffer, (uint)(&sourceAddress), 8); *PrintBuffer++ = ' ';
+     PrintBuffer = printHex(PrintBuffer, (uint)(&targetAddress), 8); *PrintBuffer++ = ' ';
+     PrintBuffer = printHex(PrintBuffer, (uint)(&tempPointer), 8); *PrintBuffer++ = 0;
+     printString(15, 35, PrintText);
 
-     bufA = printHex(bufA, (HeaderOffset + 0x34), 8); *bufA++ = ' ';
-     bufA = printHex(bufA, (HeaderOffset + 0x50), 8); *bufA++ = ' ';
-     bufA = printHex(bufA, (HeaderOffset + 0x40), 8); *bufA++ = 0;
-     printString(15, 30, textA);
-
-
-     bufB = printHex(bufB, *(uint*)(HeaderOffset + 0x34), 8); *bufB++ = ' ';
-     bufB = printHex(bufB, *(uint*)(HeaderOffset + 0x50), 8); *bufB++ = ' ';
-     bufB = printHex(bufB, *(uint*)(HeaderOffset + 0x40), 8); *bufB++ = 0;
-     printString(15, 40, textB);
+     PrintBuffer = PrintText;
+     PrintBuffer = printHex(PrintBuffer, (uint)(*sourceAddress), 8); *PrintBuffer++ = ' ';
+     PrintBuffer = printHex(PrintBuffer, (uint)(*targetAddress), 8); *PrintBuffer++ = ' ';
+     PrintBuffer = printHex(PrintBuffer, (uint)(*tempPointer), 8); *PrintBuffer++ = 0;
+     printString(15, 45, PrintText);
 
 
 }
