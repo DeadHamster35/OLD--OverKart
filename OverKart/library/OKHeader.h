@@ -1,3 +1,5 @@
+#include <sys/types.h>
+#include <math.h>
 // These are new custom RAM values
 // 0x80400000 - 0x804FFFFF is restricted for OverKart64 functions and data.
 // 0x80500000 - 0x805FFFFF is reserved for Custom Course Assembly and data.
@@ -10,7 +12,7 @@
 
 extern long ok_HeaderOffsets; //0x80450000
 extern long ok_MenuOffsets; //0x80451400
-extern long ok_CourseHeader; //0x80453C00
+extern uint ok_CourseHeader; //0x80453C00
 
 extern long ok_HeaderROM; //0xBE9178
 

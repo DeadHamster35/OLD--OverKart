@@ -1,3 +1,5 @@
+#include <sys/types.h>
+#include <math.h>
 #include "library/OKAssembly.h"
 #include "library/OKHeader.h"
 #include "library/MarioKart.h"
@@ -417,8 +419,11 @@ void loadHotSwap(int gpOffset)
 
 		//version 4
 		//first load the entire OverKart header into expansion RAM
-		*targetAddress = (long)&ok_CourseHeader;
-		*sourceAddress = *(long*)(&ok_HeaderOffsets + ((courseValue + gpOffset) * 1) + ((hsID-1) * 0x14));
+
+		uint headerOffsets = (uint)&ok_HeaderOffsets;
+		uint courseHeaderAddress = (uint)&ok_CourseHeader;
+		*targetAddress = courseHeaderAddress;
+		*sourceAddress = *(uint*)(headerOffsets + ((courseValue + gpOffset) * 4) + ((hsID-1) * 0x50));
 		dataLength = 0x64;
 		if (*sourceAddress != 0xFFFFFFFF)
 		{
@@ -426,7 +431,7 @@ void loadHotSwap(int gpOffset)
 
 			//load the standard course loadHeaderOffsets
 			*targetAddress = 0x802B8D80;
-			*sourceAddress = (long)(&ok_CourseHeader + 1);
+			*sourceAddress = (long)(courseHeaderAddress + 4);
 			dataLength = 0x30;
 			runRAM();
 		}
@@ -445,15 +450,15 @@ void loadHotSwap(int gpOffset)
 		asmBool = 0;
 	}
 
-	setSky();
+	//setSky();
 
-	setTempo();
+	//setTempo();
 
 	//setASM();
-	setEcho();
+	//setEcho();
 	//setPath();
-	setSong();
-	setWater();
+	//setSong();
+	//setWater();
 
 }
 

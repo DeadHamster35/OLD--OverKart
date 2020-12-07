@@ -27,6 +27,11 @@ J GlobalCustomCode
 NOP
 
 
+.org 0x95858 //
+J MenuPrintJump
+NOP
+
+
 
 
 //title screen hook
@@ -35,15 +40,6 @@ J CustomCodeTitleScreen
 NOP
 
 
-//trophyscreen
-
-//.org 0x124C34 //Ram address 802815F4
-//JAL printGPTimeParent
-//NOP
-//LW ra, 0x14 (sp)
-//ADDIU sp, sp, 0x18
-//JR ra
-//NOP
 
 
 //1p
@@ -85,22 +81,29 @@ NOP
 
 
 StartRAMData:
+.align 0x10
 bannerN:
 .import "OverKart\\textures\\banner_n.mio0.bin"        ;;  324
+.align 0x10
 bannerU:
 .import "OverKart\\textures\\banner_U.mio0.bin"        ;;  311
+.align 0x10
 set0:
 .import "OverKart\\textures\\set0.mio0.bin"            ;;  87c
+.align 0x10
 set1:
 .import "OverKart\\textures\\set1.mio0.bin"            ;;  7f5
+.align 0x10
 set2:
 .import "OverKart\\textures\\set2.mio0.bin"            ;;  7fc
+.align 0x10
 set3:
 .import "OverKart\\textures\\set3.mio0.bin"            ;;  808
+.align 0x10
 set4:
 .import "OverKart\\textures\\set4.mio0.bin"            ;;  800
 
-
+.align 0x10
 OriginalBootFunction: //we overwrite this when DMAing our code
 //therefore, make sure it gets ran or the game wont boot
 LUI    T6, 0x8030
@@ -112,7 +115,7 @@ LUI at, 0x8015
 J 0x800012AC //jump back to where execution should be on boot
 SW t7, 0x02B4 (at)
 
-
+.align 0x10
 CustomCodeTitleScreen:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp)
@@ -126,6 +129,8 @@ J 0x80094BD8 //jump back to where we were
 NOP
 NOP
 
+
+.align 0x10
 GlobalCustomCode:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp) //push ra to the stack
@@ -137,6 +142,20 @@ ADDIU sp, sp, 0x20
 J 0x8000286C //tells the game where to jump back to, dont remove
 NOP
 
+.align 0x10
+MenuPrintJump:
+ADDIU sp, sp, -0x20
+SW ra, 0x001C (sp) //push ra to the stack
+NOP
+JAL MenuPrint
+NOP
+LW ra, 0x001C (sp) //pop ra from the stack
+ADDIU sp, sp, 0x20
+jr ra
+NOP
+
+
+.align 0x10
 race1P:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp) //push ra to the stack
@@ -151,7 +170,7 @@ LUI a1, 0x800E
 J 0x8000161C
 NOP
 
-
+.align 0x10
 race2P:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp) //push ra to the stack
@@ -167,7 +186,7 @@ NOP
 
 
 
-
+.align 0x10
 raceMP:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp) //push ra to the stack
@@ -221,6 +240,7 @@ J     0x802A0D44
 LW    $ra, 0x1c($sp)
 
 
+.align 0x10
 DisplayHopTable:
 .word 0x802A31E4, 0x802A31FC, 0x802A3214, 0x802A32EC
 .word 0x802A3318, 0x802A3330, 0x802A3348, 0x802A34C0
@@ -248,7 +268,7 @@ DisplayHopTable:
 .word 0x802A33E4, 0x802A33E4, 0x802A33E4, 0x802A33E4
 .word 0x802A33E4, 0x802A33E4, 0x802A33E4, 0x802A33E4 //99
 
-
+.align 0x10
 CollisionJumpTable:
 .word 0x802A09B0, 0x802A09B0, 0x802A09B0, 0x802A09D4
 .word 0x802A04E0, 0x802A063C, 0x802A0858, 0x802A04AC
@@ -276,6 +296,7 @@ CollisionJumpTable:
 .word 0x802A09B0, 0x802A09B0, 0x802A09B0, 0x802A09B0
 .word 0x802A09B0, 0x802A09B0, 0x802A09B0, 0x802A09B0 //99
 
+.align 0x10
 AddObjectTable:
 .word 0x80296F28, 0x80296F6C, 0x80296F9C, 0x80296E40
 .word 0x80296E6C, 0x80296E88, 0x80296ED8, 0x80296DDC
@@ -320,6 +341,7 @@ LogoROM:
 .align 0x10
 CoinROM:
 .import "OverKart\\data\\coin.bin" ;; 0x4F0
+.align 0x10
 RCSpriteROM:
 .import "OverKart\\data\\coinsprite.bin" ;; 0x4F0
 

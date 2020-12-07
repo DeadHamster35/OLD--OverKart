@@ -13,11 +13,6 @@
 .definelabel Printf, 			0x800D6420
 
 
-.org 0x113FBA
-.halfword 0x8080
-.org 0x113FCE
-.byte 0x00
-
 
 
 
@@ -34,16 +29,11 @@ NOP
 J CustomCodeTitleScreen
 NOP
 
+//menu with print hook
+.org 0x95858
+J MenuPrintJump
+NOP
 
-//trophyscreen
-
-//.org 0x124C34 //Ram address 802815F4
-//JAL printGPTimeParent
-//NOP
-//LW ra, 0x14 (sp)
-//ADDIU sp, sp, 0x18
-//JR ra
-//NOP
 
 
 //1p
@@ -86,7 +76,7 @@ NOP
 
 StartRAMData:
 
-
+.align 0x10
 OriginalBootFunction: //we overwrite this when DMAing our code
 //therefore, make sure it gets ran or the game wont boot
 LUI    T6, 0x8030
@@ -98,7 +88,7 @@ LUI at, 0x8015
 J 0x800012AC //jump back to where execution should be on boot
 SW t7, 0x02B4 (at)
 
-
+.align 0x10
 CustomCodeTitleScreen:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp)
@@ -112,6 +102,20 @@ J 0x80094BD8 //jump back to where we were
 NOP
 NOP
 
+
+.align 0x10
+MenuPrintJump:
+ADDIU sp, sp, -0x20
+SW ra, 0x001C (sp) //push ra to the stack
+NOP
+JAL MenuPrint
+NOP
+LW ra, 0x001C (sp) //pop ra from the stack
+ADDIU sp, sp, 0x20
+jr ra
+NOP
+
+.align 0x10
 GlobalCustomCode:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp) //push ra to the stack
@@ -123,6 +127,7 @@ ADDIU sp, sp, 0x20
 J 0x8000286C //tells the game where to jump back to, dont remove
 NOP
 
+.align 0x10
 race1P:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp) //push ra to the stack
@@ -137,7 +142,7 @@ LUI a1, 0x800E
 J 0x8000161C
 NOP
 
-
+.align 0x10
 race2P:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp) //push ra to the stack
@@ -153,7 +158,7 @@ NOP
 
 
 
-
+.align 0x10
 raceMP:
 ADDIU sp, sp, -0x20
 SW ra, 0x001C (sp) //push ra to the stack
@@ -168,7 +173,7 @@ J 0x80001D00
 NOP
 
 
-
+.align 0x10
 .align 0x10
 .importobj "Core\Core.o"
 .align 0x10

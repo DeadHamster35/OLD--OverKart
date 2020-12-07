@@ -376,7 +376,7 @@ void allRun(void)
 				//TT
 				case 0x01:
 				{
-					if ((menuScreenC >= 0x02))
+					if ((menuScreenC >= 2))
 					{
 						if (courseValue != (g_cupSelect * 4) + g_courseSelect + ((hsID-1) * 0x10))
 						{
@@ -410,4 +410,10 @@ void allRun(void)
 		}
 	}
 
+}
+
+
+void MenuPrint()
+{
+	PrintMenuTest();
 }

@@ -85,7 +85,7 @@ void okSetup(void)
 	//runs once at startup
 	loadLogo();
 	startupSwitch = 35;
-	nopASM = 0;
+	//nopASM = 0;
 	DisplayNOPA = 0;
 	DisplayNOPB = 0;
 	CollisionNOPA = 0;
@@ -181,9 +181,15 @@ void gameCode(void)
 void allRun(void)
 {
 	//this code runs once every frame all game.
+	// it does NOT allow printing graphics or text.
 	if (startupSwitch != 35)
 	{
 		okSetup();
 	}
 
+}
+
+void MenuPrint()
+{
+	// this code will run during non-gameplay and allow for printing graphics/text.
 }

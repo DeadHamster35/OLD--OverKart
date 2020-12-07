@@ -1,9 +1,11 @@
+#include <sys/types.h>
 #include <math.h>
 #include "library/MarioKart.h"
 #include "library/OKHeader.h"
 #include "MarioKartMenu.h"
 #include "MarioKartStats.h"
 #include "OverKart.h"
+#include "SharedFunctions.h"
 
 char *menuNames[] = {"Game Options", "Mod Options","Render Options","Cup Editor"};
 static int menuChar[] = {12,11,14,10};
@@ -56,9 +58,6 @@ static int buttonHeld = 0;
 
 
 
-
-
-
 int cup_NTSC = 0x800F2BB4;
 int cup_PAL = 0x800F2C14;
 
@@ -101,6 +100,38 @@ void loadPosition()
                break;
           }
      }
+}
+
+
+
+void PrintMenuTest()
+{
+     char HeaderText[18];
+     char textA[54];
+     char textB[54];
+     char *bufH = HeaderText;
+     char *bufA = textA;
+     char *bufB = textB;
+     GraphPtr = drawBox(GraphPtr, 0, 0, 400, 75, 0, 0, 0, 200);
+     loadFont();
+     uint HeaderOffset = (uint)&ok_CourseHeader;
+
+     bufH = printHex(bufH, HeaderOffset, 8); *bufH++ = 0;
+     printString(15,10,HeaderText);
+
+
+     bufA = printHex(bufA, (HeaderOffset + 0x34), 8); *bufA++ = ' ';
+     bufA = printHex(bufA, (HeaderOffset + 0x50), 8); *bufA++ = ' ';
+     bufA = printHex(bufA, (HeaderOffset + 0x40), 8); *bufA++ = 0;
+     printString(15, 30, textA);
+
+
+     bufB = printHex(bufB, *(uint*)(HeaderOffset + 0x34), 8); *bufB++ = ' ';
+     bufB = printHex(bufB, *(uint*)(HeaderOffset + 0x50), 8); *bufB++ = ' ';
+     bufB = printHex(bufB, *(uint*)(HeaderOffset + 0x40), 8); *bufB++ = 0;
+     printString(15, 40, textB);
+
+
 }
 
 void printGPTime(float printTime)

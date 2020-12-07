@@ -4,7 +4,6 @@ extern void runRAM();
 extern void runTKM();
 extern void runMIO();
 
-extern void printGPTimeParent();
 
 extern long dataLength; //
 extern long *targetAddress; //
