@@ -1,8 +1,8 @@
 
 // the following all deal with ASM instructions in the game.
 // we edit them in the customASM and stockASM routines.
-extern long DisplayJumpA;
-extern long DisplayJumpB;
+extern long DisplayHopA;
+extern long DisplayHopB;
 extern long DisplayNOPA;
 extern long DisplayNOPB;
 

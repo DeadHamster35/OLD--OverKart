@@ -4,6 +4,7 @@
 .include "Core\library\MarioKartStats.asm"
 .include "Core\library\OKHeader.asm"
 .include "Core\library\OKAssembly.asm"
+.include "Core\library\SubProgram.asm"
 
 
 .definelabel PAYLOAD_ROM, 		0x00C00000
@@ -11,6 +12,39 @@
 .definelabel DMA_FUNC,    		0x80001158
 .definelabel DMA_MAX_LENGTH, 	     0x16EA0
 .definelabel Printf, 			0x800D6420
+
+.definelabel EXCEPTION_HANDLER, 0xD1DB8
+.definelabel ROM_TO_RAM, 0x7ffff400
+.definelabel RAM_TO_ROM, -0x7ffff400
+.definelabel exceptionHandleJumpback,  EXCEPTION_HANDLER + ROM_TO_RAM + 0x8
+.definelabel boot_flag, 0x80102054 //Flag ran in menu to ensure game has booted and DMA copy of code to expansion pak is complete
+
+
+
+//This code runs from a hook into the exception handler, if the main battle kart code has been DMAed, then the custom code that hooks into the exception handler is jumped to and allowed to run
+.org 0xE9E80
+exceptionHandlerBootCheck:
+    LUI k0, hi(boot_flag)
+    LBU k0, lo(boot_flag) (k0) //Check if boot has finished and GS code has been copied from rom to ram by waiting for controllers to be set up
+    BEQ k0, zero, @@branch_boot_finished //If boot has finisehd
+        NOP
+        J exceptionHandlerLoop //Jump to custom code
+        NOP
+    @@branch_boot_finished:
+    //If boot has not yet finished completely (e.g. if title screen has not been reached yet), overwrite some of the main game code right after boot
+
+    //Enable mirror mode
+    LUI k0, 0x8019
+    LI k1, 0xFF00
+    SH k1, 0xED12 (k0)
+    //Force crash screen to always display
+    LI k0, 0x08001192
+    LUI k1, 0x8000
+    sw k0, 0x45F0 (k1)
+
+
+    J exceptionHandleJumpback //Otherwise jump back to exception handler
+    NOP
 
 
 
@@ -33,6 +67,38 @@ NOP
 .org 0x95858
 J MenuPrintJump
 NOP
+
+
+
+
+
+.org 0x2440
+    JAL 0x80028F70
+
+.org 0x25E8
+    JAL 0x80028F70
+
+.org 0x2800
+    JAL 0x80028F70
+
+.org 0x1106F0
+JAL draw_kart3p
+
+.org 0x10F254
+JAL draw_kart4p
+
+.org 0x10F35C
+JAL draw_kart4p
+
+.org 0x10FB48
+JAL draw_kart4p
+
+.org 0x110140
+JAL draw_kart4p
+
+.org 0x125580
+JAL draw_kart4p
+
 
 
 
@@ -96,12 +162,13 @@ JAL	0x80095574 //run what we overwrote with our hook
 NOP
 JAL titleMenu
 NOP
+LI a0, 1
+SB a0, boot_flag
 LW ra, 0x001C (sp)
 ADDIU sp, sp, 0x20
 J 0x80094BD8 //jump back to where we were
 NOP
 NOP
-
 
 .align 0x10
 MenuPrintJump:
@@ -204,6 +271,28 @@ JAL  CollideObject
 MOVE  $a1, $s0
 J     0x802A0D44
 LW    $ra, 0x1c($sp)
+
+//Runs in exception handler (like a Gameshark), necessary for some stuff
+exceptionHandlerLoop:
+
+    // //Force mode to always be GP
+    SW zero, 0x800DC53C
+
+    //Force 8 characters to load in VS mode (from Rain)
+    LUI k0, 0x340C
+    LUI k1, 0x8004
+    SW k0, 0xC538 (k1)
+
+    //Force characters 5-8 to be 0x90 AI
+    LUI k0, 0x8010
+    LI k1, 0x90
+    SB k1, 0xA0F0 (k0)
+    SB k1, 0xAEC8 (k0)
+    SB k1, 0xBCA0 (k0)
+    SB k1, 0xCA78 (k0)
+
+    J exceptionHandleJumpback
+    NOP
 
 
 DisplayHopTable:

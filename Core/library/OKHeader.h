@@ -14,10 +14,6 @@ extern long ok_CourseHeader; //0x80453C00
 
 extern long ok_HeaderROM; //0xBE9178
 
-extern long ok_Target; //0x80454D04
-extern long ok_Source; //0x80454D08
-extern long ok_Pointer; //0x80454D0C
-extern short ok_TKMChar; //0x80454D10
 extern long ok_Credits;
 
 

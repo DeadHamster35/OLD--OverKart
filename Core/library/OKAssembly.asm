@@ -4,6 +4,8 @@
 
 
 .definelabel nopASM, 0x80002714
+
+
 .definelabel asm_tempo1A, 0x800015C4  ;;3C0F8015
 .definelabel asm_tempo1ASpeed, 0x800015C6  ;;speed value
 .definelabel asm_tempo1B, 0x800015C8  ;;8DEF0114
@@ -26,15 +28,15 @@
 .definelabel asm_selectE, 0x800B3A38
 .definelabel asm_selectF, 0x800B3A4E
 
-.definelabel DisplayJumpA, 0x802A31D0  //3C01802C
-.definelabel DisplayJumpB, 0x802A31D8 //8C2D9A44
-.definelabel DisplayNOPA, 0x802A31C4
-.definelabel DisplayNOPB, 0x802A31C8
+.definelabel DisplayHopA, 0x802A31D0  //10C7E0
+.definelabel DisplayHopB, 0x802A31D8 //10C7E8
+.definelabel DisplayNOPA, 0x802A31C4 //10C7D4
+.definelabel DisplayNOPB, 0x802A31C8 //10C7D8
 
-.definelabel CollisionJumpA, 0x802A0498 //3C01802C
-.definelabel CollisionJumpB, 0x802A04A0 //8C2B991C
-.definelabel CollisionNOPA, 0x802A0480
-.definelabel CollisionNOPB, 0x802A048C
+.definelabel CollisionJumpA, 0x802A0498 //109AA8
+.definelabel CollisionJumpB, 0x802A04A0 //109AB0
+.definelabel CollisionNOPA, 0x802A0480 //109A90
+.definelabel CollisionNOPB, 0x802A048C //109A9C
 
 .definelabel SetObjectTableA, 0x80296D94 //3C01802C
 .definelabel SetObjectTableB, 0x80296D9C //8C39991C

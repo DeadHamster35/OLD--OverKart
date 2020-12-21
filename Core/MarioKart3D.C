@@ -1,11 +1,6 @@
 #include <stdbool.h>
 #include "library/SubProgram.h"
 #include "library/MarioKart.h"
-#include "library/OKHeader.h"
-#include "library/OKassembly.h"
-#include "MarioKartMenu.h"
-#include "MarioKartPractice.h"
-#include "Core.h"
 #include "SharedFunctions.h"
 
 int CoinCount = 0;
@@ -71,6 +66,51 @@ void DrawPaths(long RSPInput)
 
 }
 
+void DisplayObject(void *Camera, void *Object)
+{
+	int objectID = (short)((*(long*)(*(long*)(&Object)) >> 16) & 0x0000FFFF);
+
+	objectID = objectID - 2;//alligns ID with original jump routine.
+	switch (objectID)
+	{
+		case 45:
+		{
+			//DisplayRedCoin(Camera,Object);
+			break;
+		}
+		default:
+		{
+			break;
+		}
+	}
+
+
+
+}
+
+void CollideObject(void *Car, void *Object)
+{
+	int objectID = (short)((*(long*)(*(long*)(&Object)) >> 16) & 0x0000FFFF);
+
+	objectID = objectID - 2; //alligns ID with original jump routine.
+	switch (objectID)
+	{
+		case 45:
+		{
+			//RedCoinCollide(Camera,Object);
+			break;
+		}
+		default:
+		{
+			break;
+		}
+	}
+}
+
+
+
+
+
 
 //kept for example
 /*
@@ -129,43 +169,3 @@ int RedCoinCollide(void *Car, void *Coin)
 }
 */
 //kept for example
-
-
-
-void DisplayObject(void *Camera, void *Object)
-{
-	int objectID = (short)((*(long*)(*(long*)(&Object)) >> 16) & 0x0000FFFF);
-
-	objectID = objectID - 2;//alligns ID with original jump routine.
-	switch (objectID)
-	{
-		case 45:
-		{
-			//DisplayRedCoin(Camera,Object);
-			break;
-		}
-		default:
-		{
-			break;
-		}
-	}
-}
-
-void CollideObject(void *Car, void *Object)
-{
-	int objectID = (short)((*(long*)(*(long*)(&Object)) >> 16) & 0x0000FFFF);
-
-	objectID = objectID - 2; //alligns ID with original jump routine.
-	switch (objectID)
-	{
-		case 45:
-		{
-			//RedCoinCollide(Camera,Object);
-			break;
-		}
-		default:
-		{
-			break;
-		}
-	}
-}

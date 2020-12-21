@@ -3,11 +3,34 @@
 #include <stdbool.h>
 #include "library/SubProgram.h"
 #include "library/MarioKart.h"
-#include "library/OKHeader.h"
-#include "library/OKassembly.h"
-#include "MarioKartMenu.h"
-#include "MarioKartPractice.h"
-#include "Core.h"
+
+
+
+
+long dataLength = 0; //
+short *TKMChar = &ok_TKMChar;
+long *targetAddress = &ok_Target;
+long *sourceAddress = &ok_Source;
+long *tempPointer = &ok_Pointer;
+long *graphPointer = &GraphPtrOffset;
+
+
+void runDMA()
+{
+	DMA(*targetAddress, *sourceAddress, dataLength);
+}
+void runRAM()
+{
+	ramCopy(*targetAddress, *sourceAddress, dataLength);
+}
+void runMIO()
+{
+	decodeMIO0(*sourceAddress, *targetAddress);
+}
+void runTKM()
+{
+	decodeTKMK(*sourceAddress, tempPointer, *targetAddress, 0xBE);
+}
 
 
 int GetRealAddress(int RSPAddress)

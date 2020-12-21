@@ -1,9 +1,9 @@
+
+
+
 extern long SYSTEM_Region;
-
-
-
 extern void decodeMIO0(long input, long output);
-extern void DMA(long output, long input, long Length);
+extern void DMA(int output, int input, long Length);
 extern void decodeTKMK(int input, long *temp, int output, int transparent);
 extern void loadCourse(int courseID);
 extern void ramCopy(long output, long input, long Length);
@@ -11,6 +11,30 @@ extern void ramCopy(long output, long input, long Length);
 
 extern void InitControllers();
 extern void readControllers();
+
+extern void DMABuffer(void* Car, void* Camera, char kno, char place); //0x80020000
+extern void DrawBuffer(void* Car, char kno, char place); //0x80021244
+
+extern void CheckDMA(); //0x80020524
+extern void CheckDMA2P(); //0x8002088C
+extern void CheckDMA3P(); //0x80020BF4
+extern void CheckDMA4P(); //0x80020F1C
+
+extern void SmokeDisp(void* Car, char kno, char place); //0x8006E5AC
+extern void SmokeDisp2P(void* Car, char kno, char place); //0x8006E634
+extern void SmokeDisp3P(void* Car, char kno, char place); //0x8006E6BC
+extern void SmokeDisp4P(void* Car, char kno, char place); //0x8006E744
+
+extern long DMAKartCount;
+
+
+extern void *gCamera1; //0x801646F0
+extern void *gCamera2; //0x801647A8
+extern void *gCamera3; //0x80164860
+extern void *gCamera4; //0x80164918
+
+extern void *mykart1; //0x800DC4FC
+extern void *kart1; //0x800DC4DC
 
 extern short deleteObjectBuffer(void *Object);
 extern short addObjectBuffer(float position[], short angle[], float velocity[], short objectID);
@@ -30,6 +54,8 @@ extern unsigned long* drawBox(unsigned long *buf, int x1, int y1, int x2, int y2
 extern long SegmentTable[];
 
 extern long SetStar(void *CarPointer, int PlayerIndex);
+extern long SetStorm(void *CarPointer, int PlayerIndex);
+extern long SetThunder(void *CarPointer, int PlayerIndex);
 
 extern unsigned long* GraphPtr;
 extern long GraphPtrOffset;
@@ -312,6 +338,7 @@ extern long asm_SongB;// 0x8028F9C4
 
 extern long g_skyColorTop;
 extern long g_skyColorBot;
+extern long g_courseTable;
 
 
 extern char player2OK; //

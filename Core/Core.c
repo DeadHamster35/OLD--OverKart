@@ -9,7 +9,7 @@
 #include "MarioKartObjects.h"
 
 
-short *TKMChar = &ok_TKMChar;
+
 short hsLabel = 99;
 short asmBool = 0;
 short courseSwapped = 0;
@@ -19,12 +19,6 @@ int raceStatus = 0; //used to mirror g_startingIndicator to ensure code runs onc
 
 //genericInput;
 
-long dataLength = 0; //
-long *targetAddress = &ok_Target;
-long *sourceAddress = &ok_Source;
-long *tempPointer = &ok_Pointer;
-long *graphPointer = &GraphPtrOffset;
-long currentHeaderAddress = 0;
 
 
 
@@ -42,23 +36,6 @@ float gpTotalTime = 0;
 int previewBuffer = 0x98D65D0;
 
 
-
-void runDMA()
-{
-	DMA(*targetAddress, *sourceAddress, dataLength);
-}
-void runRAM()
-{
-	ramCopy(*targetAddress, *sourceAddress, dataLength);
-}
-void runMIO()
-{
-	decodeMIO0(*sourceAddress, *targetAddress);
-}
-void runTKM()
-{
-	decodeTKMK(*sourceAddress, tempPointer, *targetAddress, 0xBE);
-}
 
 
 void loadLogo()
@@ -85,18 +62,7 @@ void okSetup(void)
 	//runs once at startup
 	loadLogo();
 	startupSwitch = 35;
-	//nopASM = 0;
-	DisplayNOPA = 0;
-	DisplayNOPB = 0;
-	CollisionNOPA = 0;
-	CollisionNOPB = 0;
 
-
-	DisplayJumpA = (0x3C010000 | ((((long)&DisplayHopTable >> 16) + 1) & 0x0000FFFF));
-	DisplayJumpB = (0x8C2D0000 | ((long)&DisplayHopTable & 0x0000FFFF));
-
-	CollisionJumpA = (0x3C010000 | ((((long)&CollisionJumpTable >> 16) + 1) & 0x0000FFFF));
-	CollisionJumpB = (0x8C2B0000 | ((long)&CollisionJumpTable & 0x0000FFFF));
 }
 
 bool CheckRaceResults()
@@ -192,4 +158,69 @@ void allRun(void)
 void MenuPrint()
 {
 	// this code will run during non-gameplay and allow for printing graphics/text.
+}
+
+
+void draw_kart3P()
+{
+    for(int kart_num = 0; kart_num < 8; kart_num++)
+    {
+        if (kart_num == 0)
+        {
+            DMABuffer(mykart1, gCamera3, kart_num, 2);
+        }
+        else
+        {
+            DMABuffer(kart1+(kart_num*0x4), gCamera3, kart_num, 2);
+        }
+        DrawBuffer(kart1+(kart_num*0x4), kart_num, 2);
+        if(DMAKartCount!=0)
+        {
+            CheckDMA3P();
+        }
+        else{
+            if (kart_num == 0)
+            {
+                SmokeDisp3P(kart1+(kart_num*0x4), kart_num, 2);
+            }
+            else
+            {
+                SmokeDisp3P(kart1+(kart_num*0x4), kart_num, 2);
+            }
+        }
+        DMAKartCount = 0;
+
+    }
+}
+
+void draw_kart4P()
+{
+    for (int kart_num=0; kart_num < 8; kart_num++)
+    {
+        if (kart_num == 0)
+        {
+            DMABuffer(mykart1, gCamera4, kart_num, 3);
+        }
+        else
+        {
+            DMABuffer(kart1+(kart_num*0x4), gCamera4, kart_num, 3);
+        }
+        DrawBuffer(kart1+(kart_num*0x4), kart_num, 3);
+        if(DMAKartCount!=0)
+        {
+            CheckDMA4P();
+        }
+        else{
+            if (kart_num == 0)
+            {
+                SmokeDisp4P(kart1+(kart_num*0x4), kart_num, 3);
+            }
+            else
+            {
+                SmokeDisp4P(kart1+(kart_num*0x4), kart_num, 3);
+            }
+        }
+        DMAKartCount = 0;
+
+    }
 }

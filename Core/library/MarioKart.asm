@@ -9,6 +9,30 @@
 .definelabel readControllers, 0x80000A28
 .definelabel InitControllers, 0x800008A4
 
+.definelabel DMABuffer, 0x80020000
+.definelabel DrawBuffer, 0x80021244
+
+.definelabel CheckDMA, 0x80020524
+.definelabel CheckDMA2P, 0x8002088C
+.definelabel CheckDMA3P, 0x80020BF4
+.definelabel CheckDMA4P, 0x80020F1C
+
+.definelabel SmokeDisp, 0x8006E5AC
+.definelabel SmokeDisp2P, 0x8006E634
+.definelabel SmokeDisp3P, 0x8006E6BC
+.definelabel SmokeDisp4P, 0x8006E744
+
+.definelabel DMAKartCount, 0x800DDB58
+
+.definelabel gCamera1, 0x800DDB40
+.definelabel gCamera2, 0x800DDB44
+.definelabel gCamera3, 0x800DDB48
+.definelabel gCamera4, 0x800DDB4A
+
+.definelabel mykart1, 0x800DC4FC
+.definelabel kart1, 0x800DC4DC
+
+
 .definelabel deleteObjectBuffer, 0x8029E854
 .definelabel addObjectBuffer, 0x8029EC88
 
@@ -40,6 +64,8 @@
 .definelabel SetSegment, 0x802A7B94
 
 .definelabel SetStar, 0x8008F778
+.definelabel SetStorm, 0x8008D7B0
+.definelabel SetThunder, 0x8008DF98
 
 .definelabel initializePlayer, 0x800393C0
 
@@ -287,9 +313,10 @@
 .definelabel asm_SongA, 0x8028EC9C
 .definelabel asm_SongB, 0x8028F9C4
 //802B8B70
+
 .definelabel g_skyColorTop, 0x802B8AD0
 .definelabel g_skyColorBot, 0x802B8BCC
-
+.definelabel g_courseTable, 0x802B8D80
 
 .definelabel player2OK, 0x8018EDE9
 .definelabel player3OK, 0x8018EDEA
