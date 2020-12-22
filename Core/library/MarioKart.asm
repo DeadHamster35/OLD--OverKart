@@ -22,15 +22,30 @@
 .definelabel SmokeDisp3P, 0x8006E6BC
 .definelabel SmokeDisp4P, 0x8006E744
 
+
+.definelabel SmokeDispAfter, 0x8006E7CC
+.definelabel SmokeDisp2PAfter, 0x8006E848
+.definelabel SmokeDisp3PAfter, 0x8006E8C4
+.definelabel SmokeDisp4PAfter, 0x8006E940
+
+
+
 .definelabel DMAKartCount, 0x800DDB58
 
 .definelabel gCamera1, 0x800DDB40
 .definelabel gCamera2, 0x800DDB44
 .definelabel gCamera3, 0x800DDB48
-.definelabel gCamera4, 0x800DDB4A
+.definelabel gCamera4, 0x800DDB4C
 
 .definelabel mykart1, 0x800DC4FC
 .definelabel kart1, 0x800DC4DC
+.definelabel kart2, 0x800DC4E0
+.definelabel kart3, 0x800DC4E4
+.definelabel kart4, 0x800DC4E8
+.definelabel kart5, 0x800DC4EC
+.definelabel kart6, 0x800DC4F0
+.definelabel kart7, 0x800DC4F4
+.definelabel kart8, 0x800DC4F8
 
 
 .definelabel deleteObjectBuffer, 0x8029E854

@@ -81,24 +81,87 @@ NOP
 .org 0x2800
     JAL 0x80028F70
 
+
+
 .org 0x1106F0
 JAL draw_kart3p
 
-.org 0x10F254
+.org 0x110A34
 JAL draw_kart4p
 
-.org 0x10F35C
-JAL draw_kart4p
+.org 0x110708
+JAL draw_kart3PAfter
 
-.org 0x10FB48
-JAL draw_kart4p
+.org 0x110A4C
+JAL draw_kart4PAfter
 
-.org 0x110140
-JAL draw_kart4p
+
+.org 0x218C8
+JAL checkDMA3PHelp
+.org 0x21BF0
+JAL checkDMA4PHelp
+
+.org 0x021210
+NOP
+.org 0x021578
+NOP
+.org 0x22774
+NOP
+.org 0x0228E0
+NOP
+
+.org 0x125548
+JAL draw_kart
+.org 0x10F23C
+JAL draw_kart
+.org 0x10F524
+JAL draw_kart
+.org 0x10FB30
+JAL draw_kart
+.org 0x110128
+JAL draw_kart
 
 .org 0x125580
-JAL draw_kart4p
+JAL draw_kartAfter
+.org 0x10F254
+JAL draw_kartAfter
+.org 0x10F53C
+JAL draw_kartAfter
+.org 0x10FB48
+JAL draw_kartAfter
+.org 0x110140
+JAL draw_kartAfter
 
+
+.org 0x10F81C
+JAL draw_kart2P
+.org 0x10FE44
+JAL draw_kart2P
+.org 0x11040C
+JAL draw_kart2P
+
+.org 0x10F834
+JAL draw_kart2PAfter
+.org 0x10FE5C
+JAL draw_kart2PAfter
+.org 0x110424
+JAL draw_kart2PAfter
+
+//NOP if statments in the draw_kart function
+.org 0x021FDC
+    NOP
+.org 0x0220AC
+    NOP
+.org 0x022178
+    NOP
+
+//NOP if statements in the draw_kartP2 function
+.org 0x02226C
+    NOP
+.org 0x02233C
+    NOP
+.org 0x022408
+    NOP
 
 
 

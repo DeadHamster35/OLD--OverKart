@@ -161,66 +161,251 @@ void MenuPrint()
 }
 
 
+
+void draw_kart()
+{
+    DMABuffer(mykart1,gCamera1,0,0);
+    DMABuffer(kart2,gCamera1,1,0);
+    DMABuffer(kart3,gCamera1,2,0);
+    DMABuffer(kart4,gCamera1,3,0);
+    DMABuffer(kart5,gCamera1,4,0);
+    DMABuffer(kart6,gCamera1,5,0);
+    DMABuffer(kart7,gCamera1,6,0);
+    DMABuffer(kart8,gCamera1,7,0);
+
+    DrawBuffer(kart1,0,0);
+    DrawBuffer(kart2,1,0);
+    DrawBuffer(kart3,2,0);
+    DrawBuffer(kart4,3,0);
+    DrawBuffer(kart5,4,0);
+    DrawBuffer(kart6,5,0);
+    DrawBuffer(kart7,6,0);
+    DrawBuffer(kart8,7,0);
+
+   if(DMAKartCount!=0)
+   {
+       CheckDMA();
+   }
+   else
+   {
+	  SmokeDisp(mykart1,0,0);
+	  SmokeDisp(kart2,1,0);
+	  SmokeDisp(kart3,2,0);
+	  SmokeDisp(kart4,3,0);
+	  SmokeDisp(kart5,4,0);
+	  SmokeDisp(kart6,5,0);
+	  SmokeDisp(kart7,6,0);
+	  SmokeDisp(kart8,7,0);
+   }
+   DMAKartCount = 0;
+
+
+}
+
+
+void draw_kart2P()
+{
+    DMABuffer(mykart1,gCamera2,0,1);
+    DMABuffer(kart2,gCamera2,1,1);
+    DMABuffer(kart3,gCamera2,2,1);
+    DMABuffer(kart4,gCamera2,3,1);
+    DMABuffer(kart5,gCamera2,4,1);
+    DMABuffer(kart6,gCamera2,5,1);
+    DMABuffer(kart7,gCamera2,6,1);
+    DMABuffer(kart8,gCamera2,7,1);
+
+    DrawBuffer(kart1,0,1);
+    DrawBuffer(kart2,1,1);
+    DrawBuffer(kart3,2,1);
+    DrawBuffer(kart4,3,1);
+    DrawBuffer(kart5,4,1);
+    DrawBuffer(kart6,5,1);
+    DrawBuffer(kart7,6,1);
+    DrawBuffer(kart8,7,1);
+
+   if(DMAKartCount!=0)
+   {
+       CheckDMA2P();
+   }
+   else
+   {
+	  SmokeDisp2P(mykart1,0,1);
+	  SmokeDisp2P(kart2,1,1);
+	  SmokeDisp2P(kart3,2,1);
+	  SmokeDisp2P(kart4,3,1);
+	  SmokeDisp2P(kart5,4,1);
+	  SmokeDisp2P(kart6,5,1);
+	  SmokeDisp2P(kart7,6,1);
+	  SmokeDisp2P(kart8,7,1);
+   }
+   DMAKartCount = 0;
+
+
+}
+
+
 void draw_kart3P()
 {
-    for(int kart_num = 0; kart_num < 8; kart_num++)
-    {
-        if (kart_num == 0)
-        {
-            DMABuffer(mykart1, gCamera3, kart_num, 2);
-        }
-        else
-        {
-            DMABuffer(kart1+(kart_num*0x4), gCamera3, kart_num, 2);
-        }
-        DrawBuffer(kart1+(kart_num*0x4), kart_num, 2);
-        if(DMAKartCount!=0)
-        {
-            CheckDMA3P();
-        }
-        else{
-            if (kart_num == 0)
-            {
-                SmokeDisp3P(kart1+(kart_num*0x4), kart_num, 2);
-            }
-            else
-            {
-                SmokeDisp3P(kart1+(kart_num*0x4), kart_num, 2);
-            }
-        }
-        DMAKartCount = 0;
+    DMABuffer(mykart1,gCamera3,0,2);
+    DMABuffer(kart2,gCamera3,1,2);
+    DMABuffer(kart3,gCamera3,2,2);
+    DMABuffer(kart4,gCamera3,3,2);
+    DMABuffer(kart5,gCamera3,4,2);
+    DMABuffer(kart6,gCamera3,5,2);
+    DMABuffer(kart7,gCamera3,6,2);
+    DMABuffer(kart8,gCamera3,7,2);
 
-    }
+    DrawBuffer(kart1,0,2);
+    DrawBuffer(kart2,1,2);
+    DrawBuffer(kart3,2,2);
+    DrawBuffer(kart4,3,2);
+    DrawBuffer(kart5,4,2);
+    DrawBuffer(kart6,5,2);
+    DrawBuffer(kart7,6,2);
+    DrawBuffer(kart8,7,2);
+
+   if(DMAKartCount!=0)
+   {
+       CheckDMA3P();
+   }
+   else
+   {
+	  SmokeDisp3P(mykart1,0,2);
+	  SmokeDisp3P(kart2,1,2);
+	  SmokeDisp3P(kart3,2,2);
+	  SmokeDisp3P(kart4,3,2);
+	  SmokeDisp3P(kart5,4,2);
+	  SmokeDisp3P(kart6,5,2);
+	  SmokeDisp3P(kart7,6,2);
+	  SmokeDisp3P(kart8,7,2);
+   }
+   DMAKartCount = 0;
+
+
 }
 
 void draw_kart4P()
 {
-    for (int kart_num=0; kart_num < 8; kart_num++)
-    {
-        if (kart_num == 0)
-        {
-            DMABuffer(mykart1, gCamera4, kart_num, 3);
-        }
-        else
-        {
-            DMABuffer(kart1+(kart_num*0x4), gCamera4, kart_num, 3);
-        }
-        DrawBuffer(kart1+(kart_num*0x4), kart_num, 3);
-        if(DMAKartCount!=0)
-        {
-            CheckDMA4P();
-        }
-        else{
-            if (kart_num == 0)
-            {
-                SmokeDisp4P(kart1+(kart_num*0x4), kart_num, 3);
-            }
-            else
-            {
-                SmokeDisp4P(kart1+(kart_num*0x4), kart_num, 3);
-            }
-        }
-        DMAKartCount = 0;
+	DMABuffer(mykart1,gCamera4,0,3);
+     DMABuffer(kart2,gCamera4,1,3);
+     DMABuffer(kart3,gCamera4,2,3);
+     DMABuffer(kart4,gCamera4,3,3);
+     DMABuffer(kart5,gCamera4,4,3);
+     DMABuffer(kart6,gCamera4,5,3);
+     DMABuffer(kart7,gCamera4,6,3);
+     DMABuffer(kart8,gCamera4,7,3);
 
+     DrawBuffer(kart1,0,3);
+     DrawBuffer(kart2,1,3);
+     DrawBuffer(kart3,2,3);
+     DrawBuffer(kart4,3,3);
+     DrawBuffer(kart5,4,3);
+     DrawBuffer(kart6,5,3);
+     DrawBuffer(kart7,6,3);
+     DrawBuffer(kart8,7,3);
+
+    if(DMAKartCount!=0)
+    {
+        CheckDMA4P();
     }
+    else
+    {
+ 	  SmokeDisp4P(mykart1,0,3);
+ 	  SmokeDisp4P(kart2,1,3);
+ 	  SmokeDisp4P(kart3,2,3);
+ 	  SmokeDisp4P(kart4,3,3);
+ 	  SmokeDisp4P(kart5,4,3);
+ 	  SmokeDisp4P(kart6,5,3);
+ 	  SmokeDisp4P(kart7,6,3);
+ 	  SmokeDisp4P(kart8,7,3);
+    }
+    DMAKartCount = 0;
+
+
+}
+
+void draw_kartAfter()
+{
+	SmokeDispAfter(mykart1,0,0);
+	SmokeDispAfter(kart2,1,0);
+	SmokeDispAfter(kart3,2,0);
+	SmokeDispAfter(kart4,3,0);
+	SmokeDispAfter(kart5,4,0);
+	SmokeDispAfter(kart6,5,0);
+	SmokeDispAfter(kart7,6,0);
+	SmokeDispAfter(kart8,7,0);
+}
+
+void draw_kart2PAfter()
+{
+	SmokeDisp2PAfter(mykart1,0,1);
+	SmokeDisp2PAfter(kart2,1,1);
+	SmokeDisp2PAfter(kart3,2,1);
+	SmokeDisp2PAfter(kart4,3,1);
+	SmokeDisp2PAfter(kart5,4,1);
+	SmokeDisp2PAfter(kart6,5,1);
+	SmokeDisp2PAfter(kart7,6,1);
+	SmokeDisp2PAfter(kart8,7,1);
+}
+
+void draw_kart3PAfter()
+{
+	SmokeDisp3PAfter(mykart1,0,2);
+	SmokeDisp3PAfter(kart2,1,2);
+	SmokeDisp3PAfter(kart3,2,2);
+	SmokeDisp3PAfter(kart4,3,2);
+	SmokeDisp3PAfter(kart5,4,2);
+	SmokeDisp3PAfter(kart6,5,2);
+	SmokeDisp3PAfter(kart7,6,2);
+	SmokeDisp3PAfter(kart8,7,2);
+}
+
+void draw_kart4PAfter()
+{
+	SmokeDisp4PAfter(mykart1,0,3);
+	SmokeDisp4PAfter(kart2,1,3);
+	SmokeDisp4PAfter(kart3,2,3);
+	SmokeDisp4PAfter(kart4,3,3);
+	SmokeDisp4PAfter(kart5,4,3);
+	SmokeDisp4PAfter(kart6,5,3);
+	SmokeDisp4PAfter(kart7,6,3);
+	SmokeDisp4PAfter(kart8,7,3);
+}
+
+
+
+void checkDMAHelp()
+{
+	SmokeDisp(kart4,3,0);
+	SmokeDisp(kart5,4,0);
+	SmokeDisp(kart6,5,0);
+	SmokeDisp(kart7,6,0);
+	SmokeDisp(kart8,7,0);
+}
+
+void checkDMA2PHelp()
+{
+	SmokeDisp2P(kart4,3,1);
+	SmokeDisp2P(kart5,4,1);
+	SmokeDisp2P(kart6,5,1);
+	SmokeDisp2P(kart7,6,1);
+	SmokeDisp2P(kart8,7,1);
+}
+
+void checkDMA3PHelp()
+{
+	SmokeDisp3P(kart4,3,2);
+	SmokeDisp3P(kart5,4,2);
+	SmokeDisp3P(kart6,5,2);
+	SmokeDisp3P(kart7,6,2);
+	SmokeDisp3P(kart8,7,2);
+}
+
+void checkDMA4PHelp()
+{
+	SmokeDisp4P(kart4,3,3);
+	SmokeDisp4P(kart5,4,3);
+	SmokeDisp4P(kart6,5,3);
+	SmokeDisp4P(kart7,6,3);
+	SmokeDisp4P(kart8,7,3);
 }

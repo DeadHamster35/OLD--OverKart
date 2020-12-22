@@ -25,6 +25,13 @@ extern void SmokeDisp2P(void* Car, char kno, char place); //0x8006E634
 extern void SmokeDisp3P(void* Car, char kno, char place); //0x8006E6BC
 extern void SmokeDisp4P(void* Car, char kno, char place); //0x8006E744
 
+
+extern void SmokeDispAfter(void* Car, char kno, char place); //0x8006E5AC
+extern void SmokeDisp2PAfter(void* Car, char kno, char place); //0x8006E634
+extern void SmokeDisp3PAfter(void* Car, char kno, char place); //0x8006E6BC
+extern void SmokeDisp4PAfter(void* Car, char kno, char place); //0x8006E744
+
+
 extern long DMAKartCount;
 
 
@@ -35,6 +42,13 @@ extern void *gCamera4; //0x80164918
 
 extern void *mykart1; //0x800DC4FC
 extern void *kart1; //0x800DC4DC
+extern void *kart2; //0x800DC4DC
+extern void *kart3; //0x800DC4DC
+extern void *kart4; //0x800DC4DC
+extern void *kart5; //0x800DC4DC
+extern void *kart6; //0x800DC4DC
+extern void *kart7; //0x800DC4DC
+extern void *kart8; //0x800DC4DC
 
 extern short deleteObjectBuffer(void *Object);
 extern short addObjectBuffer(float position[], short angle[], float velocity[], short objectID);
